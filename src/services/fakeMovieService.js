@@ -1,4 +1,5 @@
 import * as genresAPI from './fakeGenreService';
+import _ from 'lodash';
 
 const movies = [
   {
@@ -70,6 +71,15 @@ const movies = [
 
 export function getMovies() {
   return movies;
+}
+
+export function getGenres() {
+  const movies = getMovies();
+  const genres = movies.map(movie => movie.genre);
+  const uniqueGenres = _.uniqBy(genres, function (e) {
+    return e._id;
+  });
+  return uniqueGenres;
 }
 
 export function getMovie(id) {
