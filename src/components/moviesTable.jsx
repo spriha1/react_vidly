@@ -37,7 +37,7 @@ class MoviesTable extends Component {
                     sortColumn={sortColumn} 
                     onSort={onSort}
                 />
-                <TableBody data={movies} />
+                <TableBody data={movies} columns={this.columns} />
                 {/* <tbody>
                     {movies.map(movie => (
                         <tr key={movie._id}>
