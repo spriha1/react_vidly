@@ -3,21 +3,58 @@ import Input from './common/input';
 
 class LoginForm extends Component {
     state = {
-        account: { username: '', password: '' }
+        account: { username: '', password: '' },
+        errors: {}
+    };
+
+    validate = () => {
+        const errors = {};
+        const { account } = this.state;
+        if (account.username.trim() === '')
+            errors.username = 'Username is required';
+        if (account.password.trim() === '')
+            errors.password = 'Password is required';
+        console.log(errors);
+        // return errors ? errors : null;
+        return Object.keys(errors).length === 0 ? null : errors;
     };
 
     handleSubmit = e => {
         e.preventDefault();
+
+        const errors = this.validate();
+        this.setState({ errors: errors || {} });
+        if (errors) return;
+
+        //call the server
+        console.log('submitted');
+    }
+
+    validateProperty = ({ name, value }) => {
+        if (name === 'username') {
+            if (value.trim() === '') return 'Username is required.';
+        }
+        if (name === 'password') {
+            if (value.trim() === '') return 'Password is required.';
+        }
     }
 
     handleChange = e => {
+        const { currentTarget: input } = e;
+
+        const errors = {...this.state.errors};
+        const errorMessage = this.validateProperty(input);
+        if (errorMessage) errors[input.name] = errorMessage;
+        else delete errors[input.name];
+
         const account = {...this.state.account};
-        account[e.currentTarget.name] = e.currentTarget.value;
-        this.setState({ account });
+        account[input.name] = input.value;
+
+        this.setState({ account, errors });
     }
 
     render() { 
-        const { account } = this.state;
+        const { account, errors } = this.state;
         
         return (
             <div>
@@ -28,12 +65,14 @@ class LoginForm extends Component {
                         label="Username"
                         value={account.username}
                         onChange={this.handleChange}
+                        error={errors.username}
                     />
                     <Input 
                         name="password"
                         label="password"
                         value={account.password}
                         onChange={this.handleChange}
+                        error={errors.password}
                     />
                     {/* <div className="form-group">
                         <label htmlFor="username">Username</label>
