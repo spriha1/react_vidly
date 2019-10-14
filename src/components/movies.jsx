@@ -104,6 +104,8 @@ class Movies extends Component {
 
                     <p>Showing {totalCount} movies in the databse.</p>
 
+                    <SearchBox value={searchQuery} onChange={this.handleSearch} />
+
                     <MoviesTable 
                         movies={movies} 
                         sortColumn={sortColumn}
