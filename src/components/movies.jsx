@@ -8,6 +8,7 @@ import Pagination from './common/pagination';
 import { paginate } from '../utils/paginate';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import SearchBox from './common/searchBox';
 
 class Movies extends Component {
     state = { 
@@ -90,7 +91,7 @@ class Movies extends Component {
 
     render() {
         const { length: count } = this.state.movies;
-        const { pageSize, currentPage, sortColumn } = this.state;
+        const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
         
         if (count === 0) return <p>There are no movies in the database.</p>;
 
